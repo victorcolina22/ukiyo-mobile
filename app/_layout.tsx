@@ -27,7 +27,14 @@ export default function RootLayout() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Stack screenOptions={{ contentStyle: styles.container }}>
+      <Stack
+        screenOptions={{
+          contentStyle: {
+            backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
+            marginTop: 20,
+          },
+        }}
+      >
         <Stack.Screen name='index' options={{ headerShown: false }} />
         <Stack.Screen name='+not-found' />
       </Stack>
