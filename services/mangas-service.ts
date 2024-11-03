@@ -1,6 +1,7 @@
 import { IChapter } from '@/interfaces/chapter';
 import { Manga } from '@/interfaces/manga';
 import { IMangaList } from '@/interfaces/mangaList';
+import { ISearch } from '@/interfaces/search';
 import { BASE_URL, ENDPOINTS } from '@/shared/constants';
 
 export class MangaService {
@@ -53,7 +54,7 @@ export class MangaService {
     }
   }
 
-  static async search(query: string) {
+  static async search(query: string): Promise<ISearch | undefined> {
     if (!query) return;
     try {
       const response = await fetch(`${this.SEARCH_MANGA_URL}/${query}`);
