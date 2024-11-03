@@ -29,9 +29,14 @@ export default function RootLayout() {
     <SafeAreaView style={styles.container}>
       <Stack
         screenOptions={{
+          title: '',
+          headerStyle: {
+            backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
+          },
           contentStyle: {
             backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
             marginTop: 20,
+            paddingHorizontal: 15,
           },
         }}
       >

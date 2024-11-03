@@ -1,3 +1,5 @@
+import { IChapter } from '@/interfaces/chapter';
+import { Manga } from '@/interfaces/manga';
 import { IMangaList } from '@/interfaces/mangaList';
 import { BASE_URL, ENDPOINTS } from '@/shared/constants';
 
@@ -26,7 +28,7 @@ export class MangaService {
     }
   }
 
-  static async getMangaById(id: string) {
+  static async getMangaById(id: string): Promise<Manga | undefined> {
     if (!id) return;
     try {
       const response = await fetch(`${this.MANGA_BY_ID_URL}/${id}`);
@@ -37,7 +39,10 @@ export class MangaService {
     }
   }
 
-  static async getChapterById(bookId: string, id: string) {
+  static async getChapterById(
+    bookId: string,
+    id: string,
+  ): Promise<IChapter | undefined> {
     if (!id) return;
     try {
       const response = await fetch(`${this.MANGA_BY_ID_URL}/${bookId}/${id}`);

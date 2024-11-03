@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'expo-router';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import { MangaList } from '@/interfaces/mangaList';
 import { MangaService } from '@/services/mangas-service';
@@ -20,32 +21,34 @@ export default function HomeScreen() {
     <FlatList
       data={mangas}
       keyExtractor={(item) => item.id}
-      style={{ paddingHorizontal: 20 }}
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       renderItem={({ item }) => (
-        <View style={styles.container}>
-          <Image
-            source={{ uri: item.image }}
-            style={styles.image}
-            alt={item.title}
-          />
-          <View style={{ flexShrink: 1 }}>
-            <Text numberOfLines={2} ellipsizeMode='tail' style={styles.title}>
-              {item.title}
-            </Text>
-            <Text numberOfLines={2} ellipsizeMode='tail' style={styles.text}>
-              {item.description}
-            </Text>
-            <Text numberOfLines={2} ellipsizeMode='tail' style={styles.text}>
-              <Text style={{ fontWeight: 'bold' }}>View: </Text>
-              {item.view}
-            </Text>
-            <Text numberOfLines={2} ellipsizeMode='tail' style={styles.text}>
-              <Text style={{ fontWeight: 'bold' }}>Chapter: </Text>
-              {item.chapter}
-            </Text>
+        <Link href={`/book/${item.id}`}>
+          <View style={styles.container}>
+            <Image
+              source={{ uri: item.image }}
+              style={styles.image}
+              alt={item.title}
+            />
+
+            <View style={{ flexShrink: 1 }}>
+              <Text numberOfLines={2} ellipsizeMode='tail' style={styles.title}>
+                {item.title}
+              </Text>
+              <Text numberOfLines={2} ellipsizeMode='tail' style={styles.text}>
+                {item.description}
+              </Text>
+              <Text numberOfLines={2} ellipsizeMode='tail' style={styles.text}>
+                <Text style={{ fontWeight: 'bold' }}>Views: </Text>
+                {item.view}
+              </Text>
+              <Text numberOfLines={2} ellipsizeMode='tail' style={styles.text}>
+                <Text style={{ fontWeight: 'bold' }}>Chapter: </Text>
+                {item.chapter}
+              </Text>
+            </View>
           </View>
-        </View>
+        </Link>
       )}
     />
   );
