@@ -35,7 +35,7 @@ export default function RootLayout() {
           },
           contentStyle: {
             backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
-            marginTop: 20,
+            paddingTop: 20,
             paddingHorizontal: 15,
           },
         }}

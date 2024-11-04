@@ -1,43 +1,49 @@
-import { FlatList, Image, StyleSheet } from 'react-native';
-import { useEffect, useState } from 'react';
-import { useLocalSearchParams } from 'expo-router';
-import { IChapter } from '@/interfaces/chapter';
-import { MangaService } from '@/services/mangas-service';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  View,
+  useWindowDimensions,
+} from 'react-native';
+import { useChapterScreen } from './hooks/useChapterScreen';
 
+// TODO: Arreglar height y width de las imagenes
 export default function ChapterScreen() {
-  const { bookId, id } = useLocalSearchParams();
+  const { chapter, isLoading } = useChapterScreen();
 
-  const [chapter, setChapter] = useState<IChapter>();
+  const { width, height } = useWindowDimensions();
 
-  useEffect(() => {
-    if (typeof id === 'string' && typeof bookId === 'string')
-      getChapter(bookId, id);
-  }, [bookId, id]);
-
-  const getChapter = async (bookId: string, id: string) => {
-    const response = await MangaService.getChapterById(bookId, id);
-    setChapter(response);
-  };
+  if (isLoading)
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator />
+      </View>
+    );
 
   return (
-    <FlatList
-      data={chapter?.images ?? []}
-      keyExtractor={(item) => item.image}
-      renderItem={({ item }) => (
-        <Image
-          key={item.image}
-          source={{ uri: item.image }}
-          alt={item.title}
-          style={styles.image}
-        />
-      )}
-    />
+    <View style={{ flex: 1 }}>
+      <FlatList
+        data={chapter?.images ?? []}
+        keyExtractor={(item) => item.title}
+        renderItem={({ item }) => (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Image
+              style={{
+                height: height - 390,
+                width: width - 50,
+                resizeMode: 'contain',
+              }}
+              source={{ uri: item.image }}
+              alt={item.title}
+            />
+          </View>
+        )}
+      />
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  image: {
-    flex: 1,
-    aspectRatio: 1,
-  },
-});

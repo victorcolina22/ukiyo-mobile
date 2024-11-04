@@ -1,21 +1,31 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'expo-router';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
-import { MangaList } from '@/interfaces/mangaList';
-import { MangaService } from '@/services/mangas-service';
+import { Skeleton } from 'moti/skeleton';
 import { globalStyles } from '@/shared/theme';
+import { useHomeScreen } from './hooks/useHomeScreen';
 
 export default function HomeScreen() {
-  const [mangas, setMangas] = useState<MangaList[] | null>([]);
+  const { mangas, isLoading } = useHomeScreen();
 
-  useEffect(() => {
-    getMangas();
-  }, []);
-
-  const getMangas = async () => {
-    const response = await MangaService.getMangaListByPage(1);
-    setMangas(response?.mangaList ?? []);
-  };
+  if (isLoading)
+    return Array.from({ length: 5 }, (_, index) => index + 1).map((e) => (
+      <View
+        key={e}
+        style={{
+          flexDirection: 'row',
+          gap: 10,
+          marginBottom: 10,
+        }}
+      >
+        <Skeleton height={180} width={130} />
+        <View style={{ gap: 20 }}>
+          <Skeleton height={20} width={200} />
+          <Skeleton height={20} width={200} />
+          <Skeleton height={20} width={100} />
+          <Skeleton height={20} width={140} />
+        </View>
+      </View>
+    ));
 
   return (
     <FlatList

@@ -6,33 +6,45 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useEffect, useState } from 'react';
-import { Link, useLocalSearchParams } from 'expo-router';
-import { Manga } from '@/interfaces/manga';
-import { MangaService } from '@/services/mangas-service';
+import { Link } from 'expo-router';
+import { Skeleton } from 'moti/skeleton';
 import { globalStyles } from '@/shared/theme';
+import { useBookScreen } from './hooks/useBookScreen';
 
 export default function BookScreen() {
-  const { id } = useLocalSearchParams();
+  const { id, isLoading, manga } = useBookScreen();
 
-  const [manga, setManga] = useState<Manga>();
+  if (isLoading)
+    return (
+      <>
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 10,
+            marginBottom: 10,
+          }}
+        >
+          <Skeleton height={180} width={130} />
+          <View style={{ gap: 20 }}>
+            <Skeleton height={20} width={200} />
+            <Skeleton height={20} width={200} />
+            <Skeleton height={20} width={100} />
+            <Skeleton height={20} width={140} />
+          </View>
+        </View>
 
-  useEffect(() => {
-    if (typeof id === 'string') getManga(id);
-  }, [id]);
-
-  const getManga = async (id: string) => {
-    const response = await MangaService.getMangaById(id);
-    setManga(response);
-  };
+        <View style={{ gap: 20, marginTop: 40 }}>
+          {Array.from({ length: 5 }, (_, index) => index + 1).map((e) => (
+            <Skeleton key={e} height={40} width='100%' />
+          ))}
+        </View>
+      </>
+    );
 
   return (
     <>
       <View style={styles.header}>
-        <Image
-          source={{ uri: manga?.imageUrl, cache: 'force-cache' }}
-          style={styles.image}
-        />
+        <Image source={{ uri: manga?.imageUrl }} style={styles.image} />
         <View style={{ flexShrink: 1 }}>
           <Text
             style={{
