@@ -1,5 +1,12 @@
 import { Link } from 'expo-router';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { Skeleton } from 'moti/skeleton';
 import { globalStyles } from '@/shared/theme';
 import { useHomeScreen } from './hooks/useHomeScreen';
@@ -33,8 +40,8 @@ export default function HomeScreen() {
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       renderItem={({ item }) => (
-        <Link href={`/book/${item.id}`}>
-          <View style={styles.container}>
+        <Link asChild href={`/book/${item.id}`}>
+          <Pressable style={styles.container}>
             <Image
               source={{ uri: item.image }}
               style={styles.image}
@@ -57,7 +64,7 @@ export default function HomeScreen() {
                 {item.chapter}
               </Text>
             </View>
-          </View>
+          </Pressable>
         </Link>
       )}
     />

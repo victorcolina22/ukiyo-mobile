@@ -88,11 +88,11 @@ export default function BookScreen() {
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           style={{ marginBottom: 240 }}
           renderItem={({ item }) => (
-            <Pressable key={item.id} style={styles.link}>
-              <Link href={`/book/${id}/${item.id}`}>
+            <Link asChild href={`/book/${id}/${item.id}`}>
+              <Pressable key={item.id} style={styles.link}>
                 <Text style={{ ...styles.text }}>{item.name}</Text>
-              </Link>
-            </Pressable>
+              </Pressable>
+            </Link>
           )}
         />
       </View>
