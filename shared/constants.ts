@@ -1,4 +1,6 @@
 export const NAME_APP = 'ukiyo';
+export const ERROR_MANGA_NOT_FOUND = 'Error al cargar los mangas :(';
+export const ERROR_MANGA_IMAGES_NOT_FOUND = 'Error al cargar las imágenes :(';
 
 export const URL = process.env.EXPO_PUBLIC_BASE_URL;
 export const API = 'api';

@@ -3,6 +3,8 @@ import {
   FlatList,
   Image,
   Pressable,
+  RefreshControl,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -12,7 +14,8 @@ import { globalStyles } from '@/shared/theme';
 import { useHomeScreen } from './hooks/useHomeScreen';
 
 export default function HomeScreen() {
-  const { mangas, isLoading } = useHomeScreen();
+  const { mangas, isLoading, error, isRefreshing, handlePullToRefresh } =
+    useHomeScreen();
 
   if (isLoading)
     return Array.from({ length: 5 }, (_, index) => index + 1).map((e) => (
@@ -33,6 +36,25 @@ export default function HomeScreen() {
         </View>
       </View>
     ));
+
+  if (error.show)
+    return (
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={handlePullToRefresh}
+            tintColor={globalStyles.textColorWhite.color}
+          />
+        }
+        contentContainerStyle={globalStyles.center}
+        showsVerticalScrollIndicator={false}
+      >
+        <View>
+          <Text style={{ ...styles.text, fontSize: 24 }}>{error.message}</Text>
+        </View>
+      </ScrollView>
+    );
 
   return (
     <FlatList

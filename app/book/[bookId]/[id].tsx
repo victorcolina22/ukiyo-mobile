@@ -14,6 +14,7 @@ import { useChapterScreen } from './hooks/useChapterScreen';
 import { useGesturePinch } from '@/shared/hooks/useGesturePinch';
 
 // TODO: Arreglar height y width de las imagenes
+// TODO: Manejar errores
 export default function ChapterScreen() {
   const { chapter, isLoading } = useChapterScreen();
   const { width, height } = useWindowDimensions();
