@@ -1,6 +1,6 @@
-import { ImageStyle, TextStyle, ViewStyle } from 'react-native';
+import { ImageStyle, StyleProp, TextStyle, ViewStyle } from 'react-native';
 
-type RNStyles = ViewStyle & TextStyle & ImageStyle;
+type RNStyles = ViewStyle & TextStyle & ImageStyle & StyleProp<any>;
 type CustomStyles =
   | 'backgroundColorGray'
   | 'center'
