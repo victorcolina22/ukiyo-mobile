@@ -1,11 +1,19 @@
 import { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
+import { useFonts } from 'expo-font';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as SplashScreen from 'expo-splash-screen';
-import { globalStyles } from '@/shared/theme';
 import 'react-native-reanimated';
+
+// Shared
+import { globalStyles } from '@/shared/theme';
+
+// CSS
+import '../global.css';
+
+// TankStack Query Client
+const queryClient = new QueryClient();
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -26,39 +34,33 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Stack
-        screenOptions={{
-          title: '',
-          headerStyle: {
-            backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
-          },
-          contentStyle: {
-            backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
-            paddingTop: 20,
-            paddingHorizontal: 15,
-          },
-        }}
-      >
-        <Stack.Screen
-          name='(tabs)'
-          options={{
-            headerShown: false,
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaView className='flex-1 bg-gray'>
+        <Stack
+          screenOptions={{
+            title: '',
+            headerStyle: {
+              backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
+            },
+            contentStyle: {
+              backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
+              paddingTop: 20,
+            },
           }}
-        />
-        <Stack.Screen
-          name='book/[bookId]/[id]'
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name='+not-found' />
-      </Stack>
-    </SafeAreaView>
+        >
+          <Stack.Screen
+            name='(tabs)'
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name='book/[bookId]/[id]'
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name='+not-found' />
+        </Stack>
+      </SafeAreaView>
+    </QueryClientProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
-  },
-});

@@ -1,31 +1,31 @@
 import {
-  FlatList,
+  Dimensions,
   Image,
+  ListRenderItemInfo,
   Pressable,
-  StyleSheet,
   Text,
   View,
+  VirtualizedList,
 } from 'react-native';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
-import { globalStyles } from '@/shared/theme';
+
+// Hooks
 import { useBookScreen } from './hooks/useBookScreen';
+
+// Interfaces
+import { ChapterList } from '@/interfaces/chapterList';
+import { Chapter } from '@/interfaces/chapter';
 
 export default function BookScreen() {
   const { id, isLoading, manga } = useBookScreen();
 
   if (isLoading)
     return (
-      <>
-        <View
-          style={{
-            flexDirection: 'row',
-            gap: 10,
-            marginBottom: 10,
-          }}
-        >
+      <View className='px-4'>
+        <View className='flex-row gap-3 mb-3'>
           <Skeleton height={180} width={130} />
-          <View style={{ gap: 20 }}>
+          <View className='gap-5'>
             <Skeleton height={20} width={200} />
             <Skeleton height={20} width={200} />
             <Skeleton height={20} width={100} />
@@ -33,47 +33,48 @@ export default function BookScreen() {
           </View>
         </View>
 
-        <View style={{ gap: 20, marginTop: 40 }}>
+        <View className='gap-7 mt-12'>
           {Array.from({ length: 5 }, (_, index) => index + 1).map((e) => (
             <Skeleton key={e} height={40} width='100%' />
           ))}
         </View>
-      </>
+      </View>
     );
 
   return (
-    <>
-      <View style={styles.header}>
-        <Image source={{ uri: manga?.imageUrl }} style={styles.image} />
-        <View style={{ flexShrink: 1 }}>
-          <Text
-            style={{
-              ...styles.text,
-              fontSize: 22,
-              fontWeight: 'bold',
-            }}
-          >
-            {manga?.name ?? ''}
+    <View className='px-4'>
+      <View className='flex-row gap-3'>
+        <Image
+          className='h-[180] w-[130] object-cover rounded-xl'
+          source={{ uri: manga?.imageUrl }}
+        />
+
+        <View className='flex-shrink'>
+          <Text className='text-white text-2xl font-bold'>
+            {manga?.title ?? ''}
           </Text>
 
-          <Text style={{ ...styles.text, fontWeight: 'bold', marginTop: 15 }}>
-            Author:{' '}
-            <Text style={{ fontWeight: 'normal' }}>{manga?.author ?? ''}</Text>
-          </Text>
+          {/* <Text className='text-white font-bold mt-[15]'> */}
+          {/*   Author:{' '} */}
+          {/*   <Text className='font-normal'>{manga?.authors[0].name ?? ''}</Text> */}
+          {/* </Text> */}
 
-          <Text style={{ ...styles.text, fontWeight: 'bold', marginTop: 8 }}>
-            Views:{' '}
-            <Text style={{ fontWeight: 'normal' }}>{manga?.view ?? ''}</Text>
-          </Text>
+          {/* <Text className='text-white font-bold mt-[8]'> */}
+          {/*   Views:{' '} */}
+          {/*   <Text style={{ fontWeight: 'normal' }}>{manga?.view ?? ''}</Text> */}
+          {/* </Text> */}
 
-          <Text style={{ ...styles.text, fontWeight: 'bold', marginTop: 8 }}>
+          <Text className='text-white font-bold mt-[8]'>
             Status:{' '}
             <Text style={{ fontWeight: 'normal' }}>{manga?.status ?? ''}</Text>
           </Text>
 
-          <View style={styles.genresContainer}>
+          <View className='flex-row flex-wrap gap-[6] mt-[8]'>
             {manga?.genres.map((genre) => (
-              <Text key={genre} style={styles.genres}>
+              <Text
+                key={genre}
+                className='border border-[#B6C4B6] rounded-[5] text-white py-[1] px-[5]'
+              >
                 {genre}
               </Text>
             ))}
@@ -81,57 +82,28 @@ export default function BookScreen() {
         </View>
       </View>
 
-      <View style={{ marginTop: 40 }}>
-        <FlatList
-          data={manga?.chapterList}
+      <View className='mt-[40]'>
+        {/* TODO: Fix scroll, don't allow to scroll all the way down to see the last chapter */}
+        <VirtualizedList
+          // className='mb-[240]'
+          data={manga?.chapters}
           keyExtractor={(item) => item.id}
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-          style={{ marginBottom: 240 }}
-          renderItem={({ item }) => (
+          getItem={(data, index) => data[index]}
+          getItemCount={() => manga?.chapters.length ?? 0}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }: ListRenderItemInfo<any>) => (
             <Link asChild href={`/book/${id}/${item.id}`}>
-              <Pressable key={item.id} style={styles.link}>
-                <Text style={{ ...styles.text }}>{item.name}</Text>
+              <Pressable
+                key={item.id}
+                className='bg-[#05080E] rounded-[8] px-[10] py-[16]'
+              >
+                <Text className='text-white'>{item.chapter}</Text>
               </Pressable>
             </Link>
           )}
         />
       </View>
-    </>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  image: {
-    borderRadius: 10,
-    height: 180,
-    objectFit: 'cover',
-    width: 130,
-  },
-  text: {
-    color: globalStyles.textColorWhite.color,
-  },
-  genresContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-    marginTop: 8,
-  },
-  genres: {
-    borderColor: '#B6C4B6',
-    borderRadius: 5,
-    borderWidth: 1,
-    color: globalStyles.textColorWhite.color,
-    paddingHorizontal: 5,
-    paddingVertical: 1,
-  },
-  link: {
-    backgroundColor: '#05080E',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 16,
-  },
-});

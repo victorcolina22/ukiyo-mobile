@@ -1,23 +1,26 @@
 import { useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
+// Services
 import { MangaService } from '@/services/mangas-service';
-import { Manga } from '@/interfaces/manga';
 
 export const useBookScreen = () => {
   const { id } = useLocalSearchParams();
 
-  const [manga, setManga] = useState<Manga>();
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: manga, isLoading } = useQuery({
+    queryKey: ['manga', id],
+    queryFn: () => getManga(id as string),
+    retry: false,
+  });
 
-  useEffect(() => {
-    if (typeof id === 'string') getManga(id);
-  }, [id]);
-
-  const getManga = async (id: string) => {
-    const response = await MangaService.getMangaById(id);
-    setManga(response);
-    setIsLoading(false);
-  };
+  async function getManga(id: string) {
+    try {
+      const response = await MangaService.getMangaById(id);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return {
     id,
@@ -25,3 +28,5 @@ export const useBookScreen = () => {
     manga,
   };
 };
+
+export default useBookScreen;

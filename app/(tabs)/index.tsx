@@ -5,13 +5,21 @@ import {
   Pressable,
   RefreshControl,
   ScrollView,
-  StyleSheet,
   Text,
   View,
 } from 'react-native';
-import { globalStyles } from '@/shared/theme';
-import { useHomeScreen } from '../hooks/useHomeScreen';
+
+// Components
+import { Genres } from '@/components/Genres';
+import { RenderIf } from '@/components/RenderIf';
 import { Skeleton } from '@/components/Skeleton';
+
+// Shared
+import { COLORS } from '@/shared/constants';
+import { globalStyles } from '@/shared/theme';
+
+// Hooks
+import { useHomeScreen } from '../hooks/useHomeScreen';
 
 export default function HomeScreen() {
   const { mangas, isLoading, error, isRefreshing, handlePullToRefresh } =
@@ -19,19 +27,19 @@ export default function HomeScreen() {
 
   if (isLoading)
     return Array.from({ length: 5 }, (_, index) => index + 1).map((e) => (
-      <View key={e} style={styles.view}>
+      <View key={e} className='bg-gray px-4'>
         <Skeleton />
       </View>
     ));
 
   if (error.show)
     return (
-      <View style={styles.view}>
+      <View className='bg-gray'>
         <ScrollView
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
-              tintColor={globalStyles.textColorWhite.color}
+              tintColor={COLORS.WHITE}
               onRefresh={handlePullToRefresh}
             />
           }
@@ -39,60 +47,49 @@ export default function HomeScreen() {
           showsVerticalScrollIndicator={false}
         >
           <View>
-            <Text style={{ ...styles.text, fontSize: 24 }}>
-              {error.message}
-            </Text>
+            <Text className='text-white mt-2 text-3xl'>{error.message}</Text>
           </View>
         </ScrollView>
       </View>
     );
 
   return (
-    <View style={styles.view}>
+    <View className='bg-gray pb-2 px-4'>
       <FlatList
         data={mangas}
         keyExtractor={(item) => item.id}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        ItemSeparatorComponent={() => <View className='h-[10]' />}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <Link asChild href={`/book/${item.id}`}>
-            <Pressable style={styles.container}>
+            <Pressable className='flex-1 flex-row gap-3'>
               <Image
-                source={{ uri: item.image }}
-                style={styles.image}
+                className='h-[180] w-[130] object-cover rounded-lg'
+                source={{ uri: item.imageUrl }}
                 alt={item.title}
               />
 
-              <View style={{ flexShrink: 1 }}>
+              <View className='flex-shrink'>
                 <Text
+                  className='text-white font-bold text-lg'
                   numberOfLines={2}
                   ellipsizeMode='tail'
-                  style={styles.title}
                 >
                   {item.title}
                 </Text>
-                <Text
-                  numberOfLines={2}
-                  ellipsizeMode='tail'
-                  style={styles.text}
-                >
-                  {item.description}
-                </Text>
-                <Text
-                  numberOfLines={2}
-                  ellipsizeMode='tail'
-                  style={styles.text}
-                >
-                  <Text style={{ fontWeight: 'bold' }}>Views: </Text>
-                  {item.view}
-                </Text>
-                <Text
-                  numberOfLines={2}
-                  ellipsizeMode='tail'
-                  style={styles.text}
-                >
-                  <Text style={{ fontWeight: 'bold' }}>Chapter: </Text>
-                  {item.chapter}
-                </Text>
+
+                <Genres data={item.genres} />
+
+                {/* <RenderIf condition={Boolean(item.chapters)}> */}
+                {/*   <Text */}
+                {/*     className='text-white mt-2' */}
+                {/*     numberOfLines={2} */}
+                {/*     ellipsizeMode='tail' */}
+                {/*   > */}
+                {/*     <Text className='font-bold'>Chapter: </Text> */}
+                {/*     <Text>{item.chapters}</Text> */}
+                {/*   </Text> */}
+                {/* </RenderIf> */}
               </View>
             </Pressable>
           </Link>
@@ -101,29 +98,3 @@ export default function HomeScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  view: {
-    backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    gap: 10,
-  },
-  title: {
-    color: globalStyles.textColorWhite.color,
-    fontWeight: 'bold',
-    fontSize: 18,
-  },
-  text: {
-    color: globalStyles.textColorWhite.color,
-    marginTop: 5,
-  },
-  image: {
-    borderRadius: 10,
-    height: 180,
-    objectFit: 'cover',
-    width: 130,
-  },
-});

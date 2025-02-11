@@ -1,17 +1,20 @@
-import { IChapter } from '@/interfaces/chapter';
-import { Manga } from '@/interfaces/manga';
+// Interfaces
 import { IMangaList } from '@/interfaces/mangaList';
 import { ISearch } from '@/interfaces/search';
-import { BASE_URL, ENDPOINTS } from '@/shared/constants';
+import { Manga, Response } from '@/interfaces/manga';
+
+// Shared
+import { URL, ENDPOINTS } from '@/shared/constants';
 
 export class MangaService {
-  private static MANGA_HOOK_URL = `${BASE_URL}${ENDPOINTS.MANGA_LIST}`;
-  private static MANGA_BY_ID_URL = `${BASE_URL}${ENDPOINTS.MANGA_BY_ID}`;
-  private static SEARCH_MANGA_URL = `${BASE_URL}${ENDPOINTS.SEARCH}`;
+  private static MANGA_BY_ID_URL = `${URL}${ENDPOINTS.MANGA_BY_ID}`;
+  private static MANGA_UKIYO_URL = `${URL}${ENDPOINTS.MANGA_LIST}`;
+  private static MANGA_CHAPTER_URL = `${URL}${ENDPOINTS.CHAPTER_BY_ID}`;
+  // private static SEARCH_MANGA_URL = `${URL}${ENDPOINTS.SEARCH}`;
 
-  static async getMangaList(): Promise<IMangaList> {
+  static async getMangaList(): Promise<Response<Manga[]>> {
     try {
-      const response = await fetch(`${this.MANGA_HOOK_URL}`);
+      const response = await fetch(`${this.MANGA_UKIYO_URL}`);
       return response.json();
     } catch (error) {
       console.log(error);
@@ -19,18 +22,7 @@ export class MangaService {
     }
   }
 
-  static async getMangaListByPage(page: number): Promise<IMangaList> {
-    try {
-      const response = await fetch(`${this.MANGA_HOOK_URL}?page=${page}`);
-      return response.json();
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
-
-  static async getMangaById(id: string): Promise<Manga | undefined> {
-    if (!id) return;
+  static async getMangaById(id: string): Promise<Response<Manga>> {
     try {
       const response = await fetch(`${this.MANGA_BY_ID_URL}/${id}`);
       return response.json();
@@ -41,12 +33,10 @@ export class MangaService {
   }
 
   static async getChapterById(
-    bookId: string,
-    id: string,
-  ): Promise<IChapter | undefined> {
-    if (!id) return;
+    chapterId: string,
+  ): Promise<Response<{ chapterImageUrl: string }[]>> {
     try {
-      const response = await fetch(`${this.MANGA_BY_ID_URL}/${bookId}/${id}`);
+      const response = await fetch(`${this.MANGA_CHAPTER_URL}/${chapterId}`);
       return response.json();
     } catch (error) {
       console.log(error);
@@ -54,14 +44,14 @@ export class MangaService {
     }
   }
 
-  static async search(query: string): Promise<ISearch | undefined> {
-    if (!query) return;
-    try {
-      const response = await fetch(`${this.SEARCH_MANGA_URL}/${query}`);
-      return response.json();
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
+  // static async search(query: string): Promise<ISearch | undefined> {
+  //   if (!query) return;
+  //   try {
+  //     const response = await fetch(`${this.SEARCH_MANGA_URL}/${query}`);
+  //     return response.json();
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw error;
+  //   }
+  // }
 }

@@ -1,7 +1,9 @@
 import {
   ActivityIndicator,
-  FlatList,
+  ListRenderItemInfo,
+  Text,
   View,
+  VirtualizedList,
   useWindowDimensions,
 } from 'react-native';
 import Animated, { withTiming } from 'react-native-reanimated';
@@ -10,13 +12,15 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
+
+// Hooks
 import { useChapterScreen } from './hooks/useChapterScreen';
 import { useGesturePinch } from '@/shared/hooks/useGesturePinch';
 
 // TODO: Arreglar height y width de las imagenes
 // TODO: Manejar errores
 export default function ChapterScreen() {
-  const { chapter, isLoading } = useChapterScreen();
+  const { chapter, isLoading, error } = useChapterScreen();
   const { width, height } = useWindowDimensions();
   const { animatedStyle, scale, savedScale, xValue, yValue } = useGesturePinch({
     height,
@@ -25,18 +29,30 @@ export default function ChapterScreen() {
 
   if (isLoading)
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View className='flex-1 items-center justify-center'>
         <ActivityIndicator />
       </View>
     );
 
+  if (error.show) {
+    return (
+      <View className='flex-1 items-center justify-center'>
+        <Text className='text-white'>{error.message}</Text>
+      </View>
+    );
+  }
+
   return (
     <GestureHandlerRootView>
       <Animated.View style={{ flex: 1, ...animatedStyle }}>
-        <FlatList
-          data={chapter?.images ?? []}
-          keyExtractor={(item) => item.title}
-          renderItem={({ item }) => {
+        <VirtualizedList
+          data={chapter}
+          keyExtractor={(item) => item.chapterImageUrl}
+          getItemCount={() => chapter?.length ?? 0}
+          getItem={(data, index) => data[index]}
+          renderItem={({
+            item,
+          }: ListRenderItemInfo<{ chapterImageUrl: string }>) => {
             const handleGesturePinch = Gesture.Pinch()
               .onStart((e) => {
                 xValue.value = e.focalX;
@@ -56,12 +72,7 @@ export default function ChapterScreen() {
               });
 
             return (
-              <Animated.View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
+              <Animated.View className='flex-1 items-center justify-center'>
                 <GestureDetector gesture={handleGesturePinch}>
                   <Animated.Image
                     style={{
@@ -69,8 +80,8 @@ export default function ChapterScreen() {
                       width: width - 50,
                       resizeMode: 'contain',
                     }}
-                    source={{ uri: item.image }}
-                    alt={item.title}
+                    source={{ uri: item.chapterImageUrl }}
+                    alt={item.chapterImageUrl}
                   />
                 </GestureDetector>
               </Animated.View>

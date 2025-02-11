@@ -1,43 +1,56 @@
-import { useCallback, useEffect, useState } from 'react';
-import { MangaList } from '@/interfaces/mangaList';
+import { useCallback, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
+// Services
 import { MangaService } from '@/services/mangas-service';
+
+// Shared
 import { ERROR_MANGA_NOT_FOUND } from '@/shared/constants';
 
 export const useHomeScreen = () => {
-  const [mangas, setMangas] = useState<MangaList[] | null>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState({
     message: '',
     show: false,
   });
 
-  useEffect(() => {
-    getMangas();
-  }, []);
+  const { data: mangas, isLoading } = useQuery({
+    queryKey: ['mangas'],
+    queryFn: getMangas,
+    retry: false,
+  });
 
-  const getMangas = async () => {
+  async function getMangas() {
     try {
-      const response = await MangaService.getMangaListByPage(1);
-      setMangas(response?.mangaList ?? []);
-      setIsLoading(false);
+      const response = await MangaService.getMangaList();
+      return response.data;
     } catch (error) {
       console.log(error);
       setError({
         message: ERROR_MANGA_NOT_FOUND,
         show: true,
       });
-    } finally {
-      setIsLoading(false);
     }
-  };
+  }
 
   const handlePullToRefresh = useCallback(async () => {
     setIsRefreshing(true);
-
-    await getMangas();
-    setIsRefreshing(false);
+    try {
+      await getMangas();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsRefreshing(false);
+    }
   }, []);
 
-  return { mangas, isLoading, error, isRefreshing, handlePullToRefresh };
+  return {
+    mangas,
+    isLoading,
+    error,
+    isRefreshing,
+    handlePullToRefresh,
+  };
 };
+
+export default useHomeScreen;

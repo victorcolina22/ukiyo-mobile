@@ -1,5 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
+
+// Shared
 import { globalStyles } from '@/shared/theme';
 
 export default function TabLayout() {
@@ -9,7 +11,9 @@ export default function TabLayout() {
         tabBarActiveTintColor: globalStyles.textColorWhite.color,
         headerShown: false,
         tabBarStyle: {
+          paddingTop: 10,
           backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
+          height: 65,
         },
       }}
     >
@@ -23,6 +27,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name='home' color={color} />
           ),
+          animation: 'shift',
         }}
       />
       <Tabs.Screen
@@ -32,6 +37,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name='search' color={color} />
           ),
+          animation: 'shift',
         }}
       />
     </Tabs>
