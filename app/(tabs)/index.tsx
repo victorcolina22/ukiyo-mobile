@@ -27,14 +27,14 @@ export default function HomeScreen() {
 
   if (isLoading)
     return Array.from({ length: 5 }, (_, index) => index + 1).map((e) => (
-      <View key={e} className='bg-gray px-4'>
+      <View key={e} className='px-4'>
         <Skeleton />
       </View>
     ));
 
   if (error.show)
     return (
-      <View className='bg-gray'>
+      <View>
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -54,7 +54,7 @@ export default function HomeScreen() {
     );
 
   return (
-    <View className='bg-gray pb-2 px-4'>
+    <View className='pb-2 px-4'>
       <FlatList
         data={mangas}
         keyExtractor={(item) => item.id}

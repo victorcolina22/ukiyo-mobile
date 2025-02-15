@@ -1,18 +1,24 @@
 import { useState } from 'react';
-import { TextInput } from 'react-native';
-import { PaddingContainerView } from '@/components/PaddingContainerView';
+import {
+  Keyboard,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 
 export default function SearchScreen() {
   const [text, onChangeText] = useState('');
 
   return (
-    <PaddingContainerView className='flex-1 bg-gray'>
-      <TextInput
-        className='bg-white border border-black rounded-[10] h-[40] px-[10]'
-        placeholder='Enter the title of the manga'
-        value={text}
-        onChangeText={onChangeText}
-      />
-    </PaddingContainerView>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View className='flex-1 px-4'>
+        <TextInput
+          className='bg-white border border-black rounded-[10] h-[40] px-[10]'
+          placeholder='Enter the title of the manga'
+          value={text}
+          onChangeText={onChangeText}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 }

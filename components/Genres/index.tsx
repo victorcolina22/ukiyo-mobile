@@ -9,7 +9,7 @@ export function Genres({ data = [] }: GenresProps) {
   const genresJoined = onlyThreeGenres.map((genre) => genre).join(', ');
 
   return (
-    <View className='flex items-center gap-2'>
+    <View className='flex items-start gap-2'>
       <Text className='text-white'>{genresJoined}</Text>
     </View>
   );

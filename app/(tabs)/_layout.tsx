@@ -15,6 +15,9 @@ export default function TabLayout() {
           backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
           height: 65,
         },
+        sceneStyle: {
+          backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
+        },
       }}
     >
       <Tabs.Screen

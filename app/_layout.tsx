@@ -54,11 +54,6 @@ export default function RootLayout() {
               headerShown: false,
             }}
           />
-          <Stack.Screen
-            name='book/[bookId]/[id]'
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name='+not-found' />
         </Stack>
       </SafeAreaView>
     </QueryClientProvider>
