@@ -1,21 +1,9 @@
-import {
-  Dimensions,
-  Image,
-  ListRenderItemInfo,
-  Pressable,
-  Text,
-  View,
-  VirtualizedList,
-} from 'react-native';
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 
 // Hooks
 import { useBookScreen } from './hooks/useBookScreen';
-
-// Interfaces
-import { ChapterList } from '@/interfaces/chapterList';
-import { Chapter } from '@/interfaces/chapter';
 
 export default function BookScreen() {
   const { id, isLoading, manga } = useBookScreen();
@@ -42,7 +30,7 @@ export default function BookScreen() {
     );
 
   return (
-    <View className='px-4'>
+    <ScrollView className='px-4' showsVerticalScrollIndicator={false}>
       <View className='flex-row gap-3'>
         <Image
           className='h-[180] w-[130] object-cover rounded-xl'
@@ -54,15 +42,9 @@ export default function BookScreen() {
             {manga?.title ?? ''}
           </Text>
 
-          {/* <Text className='text-white font-bold mt-[15]'> */}
-          {/*   Author:{' '} */}
-          {/*   <Text className='font-normal'>{manga?.authors[0].name ?? ''}</Text> */}
-          {/* </Text> */}
-
-          {/* <Text className='text-white font-bold mt-[8]'> */}
-          {/*   Views:{' '} */}
-          {/*   <Text style={{ fontWeight: 'normal' }}>{manga?.view ?? ''}</Text> */}
-          {/* </Text> */}
+          <Text className='text-white font-bold mt-[15]'>
+            Author: <Text className='font-normal'>{manga?.author ?? ''}</Text>
+          </Text>
 
           <Text className='text-white font-bold mt-[8]'>
             Status:{' '}
@@ -82,28 +64,18 @@ export default function BookScreen() {
         </View>
       </View>
 
-      <View className='mt-[40]'>
-        {/* TODO: Fix scroll, don't allow to scroll all the way down to see the last chapter */}
-        <VirtualizedList
-          // className='mb-[240]'
-          data={manga?.chapters}
-          keyExtractor={(item) => item.id}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-          getItem={(data, index) => data[index]}
-          getItemCount={() => manga?.chapters.length ?? 0}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }: ListRenderItemInfo<any>) => (
-            <Link asChild href={`/book/${id}/${item.id}`}>
-              <Pressable
-                key={item.id}
-                className='bg-[#05080E] rounded-[8] px-[10] py-[16]'
-              >
-                <Text className='text-white'>{item.chapter}</Text>
-              </Pressable>
-            </Link>
-          )}
-        />
+      <View className='flex flex-col gap-3 mt-[40]'>
+        {manga?.chapters?.map((chapter) => (
+          <Link asChild key={chapter.id} href={`/book/${id}/${chapter.id}`}>
+            <Pressable
+              key={chapter.id}
+              className='bg-[#05080E] rounded-[8] px-[10] py-[16]'
+            >
+              <Text className='text-white'>{chapter.chapter}</Text>
+            </Pressable>
+          </Link>
+        ))}
       </View>
-    </View>
+    </ScrollView>
   );
 }

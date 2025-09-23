@@ -11,6 +11,7 @@ export interface Manga {
   imageUrl: string;
   genres: string[];
   chapters: Chapter[];
+  author: string;
 }
 
 export interface Tag {

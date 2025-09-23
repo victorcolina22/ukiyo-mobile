@@ -47,7 +47,7 @@ export default function ChapterScreen() {
       <Animated.View style={{ flex: 1, ...animatedStyle }}>
         <VirtualizedList
           data={chapter}
-          keyExtractor={(item) => item.chapterImageUrl}
+          keyExtractor={(item) => item?.chapterImageUrl}
           getItemCount={() => chapter?.length ?? 0}
           getItem={(data, index) => data[index]}
           renderItem={({
@@ -72,16 +72,17 @@ export default function ChapterScreen() {
               });
 
             return (
-              <Animated.View className='flex-1 items-center justify-center'>
+              <Animated.View className='flex-1'>
                 <GestureDetector gesture={handleGesturePinch}>
                   <Animated.Image
+                    className='border border-red-500'
                     style={{
                       height: height - 390,
-                      width: width - 50,
+                      width: width,
                       resizeMode: 'contain',
                     }}
-                    source={{ uri: item.chapterImageUrl }}
-                    alt={item.chapterImageUrl}
+                    source={{ uri: item?.chapterImageUrl }}
+                    alt={item?.chapterImageUrl}
                   />
                 </GestureDetector>
               </Animated.View>

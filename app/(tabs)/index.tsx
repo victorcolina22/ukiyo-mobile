@@ -11,7 +11,6 @@ import {
 
 // Components
 import { Genres } from '@/components/Genres';
-import { RenderIf } from '@/components/RenderIf';
 import { Skeleton } from '@/components/Skeleton';
 
 // Shared
@@ -20,6 +19,10 @@ import { globalStyles } from '@/shared/theme';
 
 // Hooks
 import { useHomeScreen } from '../hooks/useHomeScreen';
+
+// TODO: Buscar mangas en español
+// TODO: Agregar infinity scroll
+// TODO: Corregir tamaño de imagenes en pagina de lectura
 
 export default function HomeScreen() {
   const { mangas, isLoading, error, isRefreshing, handlePullToRefresh } =
@@ -64,7 +67,7 @@ export default function HomeScreen() {
           <Link asChild href={`/book/${item.id}`}>
             <Pressable className='flex-1 flex-row gap-3'>
               <Image
-                className='h-[180] w-[130] object-cover rounded-lg'
+                className='h-[180] w-[130] object-cover rounded-xl'
                 source={{ uri: item.imageUrl }}
                 alt={item.title}
               />
@@ -79,17 +82,6 @@ export default function HomeScreen() {
                 </Text>
 
                 <Genres data={item.genres} />
-
-                {/* <RenderIf condition={Boolean(item.chapters)}> */}
-                {/*   <Text */}
-                {/*     className='text-white mt-2' */}
-                {/*     numberOfLines={2} */}
-                {/*     ellipsizeMode='tail' */}
-                {/*   > */}
-                {/*     <Text className='font-bold'>Chapter: </Text> */}
-                {/*     <Text>{item.chapters}</Text> */}
-                {/*   </Text> */}
-                {/* </RenderIf> */}
               </View>
             </Pressable>
           </Link>

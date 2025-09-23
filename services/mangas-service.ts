@@ -1,21 +1,21 @@
+import { AxiosResponse } from 'axios';
+
 // Interfaces
-import { IMangaList } from '@/interfaces/mangaList';
-import { ISearch } from '@/interfaces/search';
 import { Manga, Response } from '@/interfaces/manga';
 
 // Shared
 import { URL, ENDPOINTS } from '@/shared/constants';
+import { apiService } from './api.adapter';
 
 export class MangaService {
   private static MANGA_BY_ID_URL = `${URL}${ENDPOINTS.MANGA_BY_ID}`;
   private static MANGA_UKIYO_URL = `${URL}${ENDPOINTS.MANGA_LIST}`;
   private static MANGA_CHAPTER_URL = `${URL}${ENDPOINTS.CHAPTER_BY_ID}`;
-  // private static SEARCH_MANGA_URL = `${URL}${ENDPOINTS.SEARCH}`;
 
-  static async getMangaList(): Promise<Response<Manga[]>> {
+  static async getMangaList(): Promise<AxiosResponse<Manga[]>> {
     try {
-      const response = await fetch(`${this.MANGA_UKIYO_URL}`);
-      return response.json();
+      const response = await apiService.get<Manga[]>(this.MANGA_UKIYO_URL);
+      return response;
     } catch (error) {
       console.log(error);
       throw error;
@@ -24,8 +24,9 @@ export class MangaService {
 
   static async getMangaById(id: string): Promise<Response<Manga>> {
     try {
-      const response = await fetch(`${this.MANGA_BY_ID_URL}/${id}`);
-      return response.json();
+      const url = `${this.MANGA_BY_ID_URL}/${id}`;
+      const response = await apiService.get<Manga>(url);
+      return response;
     } catch (error) {
       console.log(error);
       throw error;
@@ -36,22 +37,12 @@ export class MangaService {
     chapterId: string,
   ): Promise<Response<{ chapterImageUrl: string }[]>> {
     try {
-      const response = await fetch(`${this.MANGA_CHAPTER_URL}/${chapterId}`);
-      return response.json();
+      const url = `${this.MANGA_CHAPTER_URL}/${chapterId}`;
+      const response = await apiService.get<{ chapterImageUrl: string }[]>(url);
+      return response;
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
-
-  // static async search(query: string): Promise<ISearch | undefined> {
-  //   if (!query) return;
-  //   try {
-  //     const response = await fetch(`${this.SEARCH_MANGA_URL}/${query}`);
-  //     return response.json();
-  //   } catch (error) {
-  //     console.log(error);
-  //     throw error;
-  //   }
-  // }
 }
