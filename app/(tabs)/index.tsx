@@ -1,15 +1,6 @@
-import { Link } from 'expo-router';
-import {
-  FlatList,
-  Image,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import { FlatList, RefreshControl, ScrollView, Text, View } from 'react-native';
 
-import { Genres } from '@/components/Genres';
+import { MangaCatalog } from '@/components/MangaCatalog';
 import { Skeleton } from '@/components/Skeleton';
 import { COLORS } from '@/shared/constants';
 import { globalStyles } from '@/shared/theme';
@@ -18,6 +9,7 @@ import { useHomeScreen } from '../hooks/useHomeScreen';
 
 // TODO: Agregar infinity scroll
 // TODO: Corregir tamaño de imagenes en pagina de lectura
+// TODO: Corregir scroll de la lista de mangas cuando son más de 10
 
 export default function HomeScreen() {
   const { mangas, isLoading, error, isRefreshing, handlePullToRefresh } =
@@ -58,29 +50,7 @@ export default function HomeScreen() {
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={() => <View className='h-[10]' />}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <Link asChild href={`/book/${item.id}`}>
-            <Pressable className='flex-1 flex-row gap-3'>
-              <Image
-                className='h-[180] w-[130] object-cover rounded-xl'
-                source={{ uri: item.imageUrl }}
-                alt={item.title}
-              />
-
-              <View className='flex-shrink'>
-                <Text
-                  className='text-white font-bold text-lg'
-                  numberOfLines={2}
-                  ellipsizeMode='tail'
-                >
-                  {item.title}
-                </Text>
-
-                <Genres data={item.genres} />
-              </View>
-            </Pressable>
-          </Link>
-        )}
+        renderItem={MangaCatalog}
       />
     </View>
   );
