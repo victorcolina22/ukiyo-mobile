@@ -1,14 +1,14 @@
+import 'react-native-reanimated';
+import '../global.css';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useFonts } from 'expo-font';
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Stack } from 'expo-router';
-import { useFonts } from 'expo-font';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import * as SplashScreen from 'expo-splash-screen';
-import 'react-native-reanimated';
 
 import { globalStyles } from '@/shared/theme';
-
-import '../global.css';
 
 // TankStack Query Client
 const queryClient = new QueryClient();

@@ -11,7 +11,6 @@ import {
 
 import { Genres } from '@/components/Genres';
 import { Skeleton } from '@/components/Skeleton';
-
 import { COLORS } from '@/shared/constants';
 import { globalStyles } from '@/shared/theme';
 
