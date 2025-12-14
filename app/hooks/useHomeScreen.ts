@@ -1,8 +1,7 @@
-import { useCallback, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
 
 import { MangaService } from '@/services/mangas-service';
-
 import { ERROR_MANGA_NOT_FOUND } from '@/shared/constants';
 
 export const useHomeScreen = () => {

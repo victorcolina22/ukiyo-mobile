@@ -1,5 +1,5 @@
-import { useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
+import { useLocalSearchParams } from 'expo-router';
 
 import { MangaService } from '@/services/mangas-service';
 

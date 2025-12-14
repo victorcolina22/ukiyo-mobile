@@ -1,5 +1,6 @@
-import { cn } from '@/shared/utils';
 import { View, ViewProps } from 'react-native';
+
+import { cn } from '@/shared/utils';
 
 interface PaddingContainerViewProps extends ViewProps {}
 

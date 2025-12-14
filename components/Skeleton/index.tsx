@@ -1,5 +1,5 @@
-import { View } from 'react-native';
 import { Skeleton as MotiSkeleton } from 'moti/skeleton';
+import { View } from 'react-native';
 
 export function Skeleton() {
   return (

@@ -2,19 +2,20 @@ import {
   ActivityIndicator,
   ListRenderItemInfo,
   Text,
+  useWindowDimensions,
   View,
   VirtualizedList,
-  useWindowDimensions,
 } from 'react-native';
-import Animated, { withTiming } from 'react-native-reanimated';
 import {
   Gesture,
   GestureDetector,
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
+import Animated, { withTiming } from 'react-native-reanimated';
+
+import { useGesturePinch } from '@/shared/hooks/useGesturePinch';
 
 import { useChapterScreen } from './hooks/useChapterScreen';
-import { useGesturePinch } from '@/shared/hooks/useGesturePinch';
 
 // TODO: Arreglar height y width de las imagenes
 // TODO: Manejar errores

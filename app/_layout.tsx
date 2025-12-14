@@ -6,7 +6,8 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { globalStyles } from '@/shared/theme';
 
@@ -20,6 +21,7 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (loaded) {
@@ -33,7 +35,15 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SafeAreaView className='flex-1 bg-gray'>
+      <View
+        className='flex-1 bg-gray'
+        style={{
+          paddingTop: insets.top,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+          paddingBottom: insets.bottom,
+        }}
+      >
         <Stack
           screenOptions={{
             title: '',
@@ -53,7 +63,7 @@ export default function RootLayout() {
             }}
           />
         </Stack>
-      </SafeAreaView>
+      </View>
     </QueryClientProvider>
   );
 }
