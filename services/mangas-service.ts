@@ -1,9 +1,7 @@
 import { AxiosResponse } from 'axios';
 
-// Interfaces
 import { Manga, Response } from '@/interfaces/manga';
 
-// Shared
 import { URL, ENDPOINTS } from '@/shared/constants';
 import { apiService } from './api.adapter';
 

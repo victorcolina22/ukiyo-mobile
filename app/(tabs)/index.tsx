@@ -9,18 +9,14 @@ import {
   View,
 } from 'react-native';
 
-// Components
 import { Genres } from '@/components/Genres';
 import { Skeleton } from '@/components/Skeleton';
 
-// Shared
 import { COLORS } from '@/shared/constants';
 import { globalStyles } from '@/shared/theme';
 
-// Hooks
 import { useHomeScreen } from '../hooks/useHomeScreen';
 
-// TODO: Buscar mangas en español
 // TODO: Agregar infinity scroll
 // TODO: Corregir tamaño de imagenes en pagina de lectura
 

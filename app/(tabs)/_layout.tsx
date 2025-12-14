@@ -1,7 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
 
-// Shared
 import { globalStyles } from '@/shared/theme';
 
 export default function TabLayout() {

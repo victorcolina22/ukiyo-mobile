@@ -13,7 +13,6 @@ import {
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
 
-// Hooks
 import { useChapterScreen } from './hooks/useChapterScreen';
 import { useGesturePinch } from '@/shared/hooks/useGesturePinch';
 

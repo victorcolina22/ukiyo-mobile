@@ -6,10 +6,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-reanimated';
 
-// Shared
 import { globalStyles } from '@/shared/theme';
 
-// CSS
 import '../global.css';
 
 // TankStack Query Client

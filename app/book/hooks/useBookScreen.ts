@@ -1,7 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 
-// Services
 import { MangaService } from '@/services/mangas-service';
 
 export const useBookScreen = () => {

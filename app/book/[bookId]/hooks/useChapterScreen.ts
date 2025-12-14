@@ -2,10 +2,8 @@ import { useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 
-// Services
 import { MangaService } from '@/services/mangas-service';
 
-// Shared
 import { ERROR_MANGA_IMAGES_NOT_FOUND } from '@/shared/constants';
 
 export const useChapterScreen = () => {
