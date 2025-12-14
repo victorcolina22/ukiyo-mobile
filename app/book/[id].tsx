@@ -2,7 +2,6 @@ import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 
-// Hooks
 import { useBookScreen } from './hooks/useBookScreen';
 
 export default function BookScreen() {
