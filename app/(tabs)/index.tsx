@@ -9,7 +9,6 @@ import { useHomeScreen } from '../hooks/useHomeScreen';
 
 // TODO: Agregar infinity scroll
 // TODO: Corregir tamaño de imagenes en pagina de lectura
-// TODO: Corregir scroll de la lista de mangas cuando son más de 10
 
 export default function HomeScreen() {
   const { mangas, isLoading, error, isRefreshing, handlePullToRefresh } =

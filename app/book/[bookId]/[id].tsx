@@ -17,8 +17,9 @@ import { useGesturePinch } from '@/shared/hooks/useGesturePinch';
 
 import { useChapterScreen } from './hooks/useChapterScreen';
 
-// TODO: Arreglar height y width de las imagenes
+// TODO: Arreglar espacios entre imagenes
 // TODO: Manejar errores
+
 export default function ChapterScreen() {
   const { chapter, isLoading, error } = useChapterScreen();
   const { width, height } = useWindowDimensions();
@@ -72,13 +73,14 @@ export default function ChapterScreen() {
               });
 
             return (
-              <Animated.View className='flex-1'>
+              <Animated.View className='flex-col'>
                 <GestureDetector gesture={handleGesturePinch}>
                   <Animated.Image
                     className='border border-red-500'
                     style={{
-                      height: height - 390,
-                      width: width,
+                      // height: height - 390,
+                      height,
+                      width,
                       resizeMode: 'contain',
                     }}
                     source={{ uri: item?.chapterImageUrl }}
