@@ -10,9 +10,8 @@ export default function TabLayout() {
         tabBarActiveTintColor: globalStyles.textColorWhite.color,
         headerShown: false,
         tabBarStyle: {
-          paddingTop: 10,
           backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
-          height: 65,
+          height: 60,
         },
         sceneStyle: {
           backgroundColor: globalStyles.backgroundColorGray.backgroundColor,
@@ -23,9 +22,6 @@ export default function TabLayout() {
         name='index'
         options={{
           title: 'Home',
-          tabBarIconStyle: {
-            color: globalStyles.textColorWhite.color,
-          },
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name='home' color={color} />
           ),

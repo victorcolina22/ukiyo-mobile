@@ -1,6 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   FlatList,
   Pressable,
@@ -11,23 +11,8 @@ import {
 
 import { MangaCatalog } from '@/components/MangaCatalog';
 import { MangaService } from '@/services/mangas-service';
+import { useDebouncedValue } from '@/shared/hooks/useDebounce';
 import { hideKeyboard } from '@/shared/utils';
-
-export const useDebouncedValue = (value: string, delay: number) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-};
 
 export default function SearchScreen() {
   const [text, onChangeText] = useState('');
@@ -41,7 +26,7 @@ export default function SearchScreen() {
   });
 
   const handleOnSubmit = () => {
-    if (text === '') return;
+    if (debouncedText === '') return;
     hideKeyboard();
   };
 
