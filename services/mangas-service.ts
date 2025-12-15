@@ -1,13 +1,13 @@
 import { AxiosResponse } from 'axios';
 
 import { Manga, Response } from '@/interfaces/manga';
+import { ENDPOINTS, URL } from '@/shared/constants';
 
-import { URL, ENDPOINTS } from '@/shared/constants';
 import { apiService } from './api.adapter';
 
 export class MangaService {
-  private static MANGA_BY_ID_URL = `${URL}${ENDPOINTS.MANGA_BY_ID}`;
-  private static MANGA_UKIYO_URL = `${URL}${ENDPOINTS.MANGA_LIST}`;
+  private static MANGA_BY_ID_URL = `${URL}${ENDPOINTS.MANGAS}`;
+  private static MANGA_UKIYO_URL = `${URL}${ENDPOINTS.MANGAS}`;
   private static MANGA_CHAPTER_URL = `${URL}${ENDPOINTS.CHAPTER_BY_ID}`;
 
   static async getMangaList(): Promise<AxiosResponse<Manga[]>> {
@@ -24,6 +24,17 @@ export class MangaService {
     try {
       const url = `${this.MANGA_BY_ID_URL}/${id}`;
       const response = await apiService.get<Manga>(url);
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  static async getMangaByName(name: string): Promise<Response<Manga[]>> {
+    try {
+      const url = `${this.MANGA_BY_ID_URL}/search/${name}`;
+      const response = await apiService.get<Manga[]>(url);
       return response;
     } catch (error) {
       console.log(error);

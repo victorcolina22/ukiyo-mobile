@@ -4,8 +4,7 @@ export const ERROR_MANGA_IMAGES_NOT_FOUND = 'Error al cargar el capítulo :(';
 
 export const URL = process.env.EXPO_PUBLIC_BASE_URL;
 export const ENDPOINTS = {
-  MANGA_LIST: '/mangas',
-  MANGA_BY_ID: '/mangas',
+  MANGAS: '/mangas',
   CHAPTER_BY_ID: '/mangas/chapter',
   SEARCH: '/search',
 };
