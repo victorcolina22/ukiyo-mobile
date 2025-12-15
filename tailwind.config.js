@@ -8,6 +8,10 @@ module.exports = {
       colors: {
         gray: '#17181a',
         white: '#eeeeee',
+        ongoing: '#FFD700',
+        completed: '#00C853',
+        hiatus: '#FF6B6B',
+        cancelled: '#FF6B6B',
       },
     },
   },

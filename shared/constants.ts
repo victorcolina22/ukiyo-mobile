@@ -13,3 +13,10 @@ export const COLORS = {
   WHITE: '#eeeeee',
   GRAY: '#17181a',
 };
+
+export enum MANGA_STATUS_COLORS_ENUM {
+  ONGOING = 'ongoing',
+  COMPLETED = 'completed',
+  HIATUS = 'hiatus',
+  CANCELLED = 'cancelled',
+}

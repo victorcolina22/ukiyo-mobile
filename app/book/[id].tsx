@@ -2,6 +2,9 @@ import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 
+import { MANGA_STATUS_COLORS_ENUM } from '@/shared/constants';
+import { cn } from '@/shared/utils';
+
 import { useBookScreen } from './hooks/useBookScreen';
 
 export default function BookScreen() {
@@ -45,10 +48,26 @@ export default function BookScreen() {
             Author: <Text className='font-normal'>{manga?.author ?? ''}</Text>
           </Text>
 
-          <Text className='text-white font-bold mt-[8]'>
-            Status:{' '}
-            <Text style={{ fontWeight: 'normal' }}>{manga?.status ?? ''}</Text>
-          </Text>
+          <View className='mt-[8] flex-row'>
+            <Text className='text-white font-bold'>{'Status: '}</Text>
+            <View className='flex-row items-center gap-1'>
+              <Text className='text-white font-normal'>
+                {manga?.status ?? ''}
+              </Text>
+              <View
+                className={cn('w-3 h-3 rounded-full', {
+                  'bg-ongoing':
+                    manga?.status === MANGA_STATUS_COLORS_ENUM.ONGOING,
+                  'bg-completed':
+                    manga?.status === MANGA_STATUS_COLORS_ENUM.COMPLETED,
+                  'bg-hiatus':
+                    manga?.status === MANGA_STATUS_COLORS_ENUM.HIATUS,
+                  'bg-cancelled':
+                    manga?.status === MANGA_STATUS_COLORS_ENUM.CANCELLED,
+                })}
+              />
+            </View>
+          </View>
 
           <View className='flex-row flex-wrap gap-[6] mt-[8]'>
             {manga?.genres.map((genre) => (
